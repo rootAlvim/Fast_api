@@ -9,7 +9,7 @@ def test_home_status_ok():
 '''
 from http import HTTPStatus
 from fastapi.testclient import TestClient
-from app import app
+from fast_zero.app import app
 
 def test__root():
     client = TestClient(app)
