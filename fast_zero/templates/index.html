@@ -1,0 +1,1882 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE INCREDIBLE HULK — O Monstro de Jade</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:ital,wght@0,700;0,900;1,700&family=Barlow:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        /* ===================================================
+       RESET & TOKENS
+    =================================================== */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #030803;
+            --bg-2: #071007;
+            --bg-3: #0d1f0d;
+            --bg-card: #0f2a0f;
+            --gamma: #39ff14;
+            --gamma-dim: rgba(57, 255, 20, .3);
+            --hulk: #4caf50;
+            --hulk-dk: #1b5e20;
+            --text: #e0f0e0;
+            --text-dim: rgba(224, 240, 224, .55);
+            --orange: #ff6b00;
+            --shadow: 0 0 20px rgba(57, 255, 20, .5), 0 0 60px rgba(57, 255, 20, .2);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Barlow', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gamma);
+            border-radius: 3px;
+        }
+
+        /* ===================================================
+       NAV
+    =================================================== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.1rem 3rem;
+            background: rgba(3, 8, 3, .88);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(57, 255, 20, .1);
+        }
+
+        .nav-logo {
+            font-family: 'Anton', sans-serif;
+            font-size: 1.5rem;
+            letter-spacing: .14em;
+            color: var(--gamma);
+            text-shadow: 0 0 14px rgba(57, 255, 20, .6);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.4rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: .78rem;
+            font-weight: 700;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            transition: color .3s, text-shadow .3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--gamma);
+            text-shadow: 0 0 8px rgba(57, 255, 20, .5);
+        }
+
+        /* ===================================================
+       HERO
+    =================================================== */
+        #hero {
+            position: relative;
+            height: 100vh;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            background: radial-gradient(ellipse 90% 65% at 50% 72%, #0f3010 0%, #030803 65%);
+        }
+
+        .gamma-bg {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(ellipse 40% 30% at 28% 62%, rgba(57, 255, 20, .06) 0%, transparent 70%),
+                radial-gradient(ellipse 50% 40% at 72% 38%, rgba(57, 255, 20, .04) 0%, transparent 70%);
+        }
+
+        #particles {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--gamma);
+            filter: blur(1px);
+            opacity: 0;
+            animation: p-rise linear infinite;
+        }
+
+        @keyframes p-rise {
+            0% {
+                transform: translateY(100%) scale(.3);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: .75;
+            }
+
+            80% {
+                opacity: .3;
+            }
+
+            100% {
+                transform: translateY(-60px) scale(1.4);
+                opacity: 0;
+            }
+        }
+
+        .hero-eyebrow {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: .82rem;
+            font-weight: 700;
+            letter-spacing: .38em;
+            text-transform: uppercase;
+            color: var(--gamma);
+            opacity: .8;
+            margin-bottom: 1.4rem;
+        }
+
+        .hero-title {
+            font-family: 'Anton', sans-serif;
+            font-size: clamp(5rem, 20vw, 18rem);
+            line-height: .82;
+            letter-spacing: -.02em;
+            color: var(--hulk);
+            text-shadow:
+                0 0 24px rgba(57, 255, 20, .8),
+                0 0 70px rgba(57, 255, 20, .3),
+                0 0 140px rgba(57, 255, 20, .12),
+                5px 5px 0 var(--hulk-dk),
+                10px 10px 0 rgba(27, 94, 32, .4);
+            animation: hulk-pulse 3.2s ease-in-out infinite;
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes hulk-pulse {
+
+            0%,
+            100% {
+                text-shadow: 0 0 24px rgba(57, 255, 20, .8), 0 0 70px rgba(57, 255, 20, .3),
+                    0 0 140px rgba(57, 255, 20, .12), 5px 5px 0 var(--hulk-dk),
+                    10px 10px 0 rgba(27, 94, 32, .4);
+            }
+
+            50% {
+                text-shadow: 0 0 36px rgba(57, 255, 20, 1), 0 0 100px rgba(57, 255, 20, .5),
+                    0 0 200px rgba(57, 255, 20, .2), 5px 5px 0 var(--hulk-dk),
+                    10px 10px 0 rgba(27, 94, 32, .4);
+            }
+        }
+
+        .hero-sub {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: clamp(.85rem, 2.2vw, 1.35rem);
+            font-weight: 700;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-top: 1.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-sub span {
+            color: var(--gamma);
+        }
+
+        .hero-cta {
+            margin-top: 3rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: .9rem 2.4rem;
+            background: transparent;
+            border: 2px solid var(--gamma);
+            color: var(--gamma);
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: .92rem;
+            font-weight: 700;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            transition: color .3s;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--gamma);
+            transform: translateX(-101%);
+            transition: transform .32s;
+            z-index: -1;
+        }
+
+        .btn:hover {
+            color: var(--bg);
+        }
+
+        .btn:hover::before {
+            transform: translateX(0);
+        }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 2.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: .4rem;
+            opacity: .4;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .hero-scroll span {
+            font-size: .65rem;
+            letter-spacing: .22em;
+            text-transform: uppercase;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 36px;
+            background: linear-gradient(to bottom, var(--gamma), transparent);
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            50% {
+                transform: translateX(-50%) translateY(8px);
+            }
+        }
+
+        /* ===================================================
+       MARQUEE SMASH
+    =================================================== */
+        .smash-bar {
+            background: var(--hulk-dk);
+            padding: 1.5rem 0;
+            overflow: hidden;
+        }
+
+        .smash-track {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 14s linear infinite;
+        }
+
+        .smash-track span {
+            font-family: 'Anton', sans-serif;
+            font-size: clamp(2rem, 5vw, 4rem);
+            letter-spacing: .18em;
+            color: transparent;
+            -webkit-text-stroke: 1.5px rgba(57, 255, 20, .5);
+            margin-right: 3rem;
+        }
+
+        @keyframes marquee {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* ===================================================
+       SHARED SECTION STYLES
+    =================================================== */
+        section {
+            padding: 7rem 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .label {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: .72rem;
+            font-weight: 700;
+            letter-spacing: .32em;
+            text-transform: uppercase;
+            color: var(--gamma);
+            opacity: .8;
+            margin-bottom: 1rem;
+        }
+
+        .sec-title {
+            font-family: 'Anton', sans-serif;
+            font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+            line-height: 1;
+            letter-spacing: .02em;
+            color: var(--text);
+            margin-bottom: 1.4rem;
+        }
+
+        .sec-title .g {
+            color: var(--gamma);
+        }
+
+        .divider {
+            width: 56px;
+            height: 3px;
+            background: var(--gamma);
+            margin-bottom: 3rem;
+            box-shadow: 0 0 9px rgba(57, 255, 20, .6);
+        }
+
+        .text-dim {
+            color: var(--text-dim);
+            line-height: 1.82;
+            font-size: 1.04rem;
+        }
+
+        .text-dim strong {
+            color: var(--hulk);
+            font-weight: 600;
+        }
+
+        /* fade-in */
+        .fi {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity .7s ease, transform .7s ease;
+        }
+
+        .fi.on {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===================================================
+       ORIGIN
+    =================================================== */
+        #origin {
+            background: var(--bg-2);
+        }
+
+        .origin-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .gamma-sym {
+            font-family: 'Anton', sans-serif;
+            font-size: clamp(9rem, 16vw, 15rem);
+            line-height: 1;
+            color: transparent;
+            -webkit-text-stroke: 2px var(--gamma);
+            opacity: .65;
+            text-align: center;
+            display: block;
+            animation: gsym 4s ease-in-out infinite;
+            filter: drop-shadow(0 0 28px rgba(57, 255, 20, .3));
+        }
+
+        @keyframes gsym {
+
+            0%,
+            100% {
+                opacity: .45;
+                filter: drop-shadow(0 0 18px rgba(57, 255, 20, .3));
+            }
+
+            50% {
+                opacity: .85;
+                filter: drop-shadow(0 0 45px rgba(57, 255, 20, .7));
+            }
+        }
+
+        .stats-row {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2.5rem;
+        }
+
+        .stat {
+            flex: 1;
+            border-left: 2px solid var(--hulk-dk);
+            padding-left: 1.2rem;
+        }
+
+        .stat-n {
+            font-family: 'Anton', sans-serif;
+            font-size: 2.2rem;
+            line-height: 1;
+            color: var(--gamma);
+            text-shadow: 0 0 10px rgba(57, 255, 20, .4);
+        }
+
+        .stat-l {
+            font-size: .72rem;
+            font-weight: 700;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-top: .3rem;
+        }
+
+        /* ===================================================
+       POWERS
+    =================================================== */
+        #powers {
+            background: var(--bg);
+        }
+
+        .powers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.4rem;
+        }
+
+        .pcard {
+            background: var(--bg-card);
+            border: 1px solid rgba(57, 255, 20, .1);
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: border-color .3s, transform .3s;
+        }
+
+        .pcard::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(57, 255, 20, .05) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity .3s;
+        }
+
+        .pcard:hover {
+            border-color: rgba(57, 255, 20, .38);
+            transform: translateY(-4px);
+        }
+
+        .pcard:hover::before {
+            opacity: 1;
+        }
+
+        .pcard-icon {
+            font-size: 2.4rem;
+            display: block;
+            margin-bottom: 1.1rem;
+            filter: drop-shadow(0 0 6px rgba(57, 255, 20, .4));
+        }
+
+        .pcard-name {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 900;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            color: var(--text);
+            margin-bottom: .65rem;
+        }
+
+        .pcard-desc {
+            font-size: .9rem;
+            line-height: 1.72;
+            color: var(--text-dim);
+        }
+
+        .pbar-row {
+            display: flex;
+            align-items: center;
+            gap: .8rem;
+            margin-top: 1.2rem;
+        }
+
+        .pbar-lbl {
+            font-size: .68rem;
+            font-weight: 700;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            white-space: nowrap;
+        }
+
+        .pbar {
+            flex: 1;
+            height: 3px;
+            background: rgba(57, 255, 20, .1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .pbar-fill {
+            height: 100%;
+            background: linear-gradient(to right, var(--hulk-dk), var(--gamma));
+            border-radius: 2px;
+            box-shadow: 0 0 6px rgba(57, 255, 20, .5);
+        }
+
+        /* ===================================================
+       RAGE METER
+    =================================================== */
+        #rage {
+            background: var(--bg-2);
+            text-align: center;
+        }
+
+        .rage-wrap {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .rage-quote {
+            font-family: 'Anton', sans-serif;
+            font-size: clamp(1.9rem, 4.5vw, 3.3rem);
+            line-height: 1.12;
+            color: var(--text);
+            margin-bottom: 3rem;
+        }
+
+        .rage-quote em {
+            font-style: normal;
+            color: var(--gamma);
+            text-shadow: 0 0 18px rgba(57, 255, 20, .4);
+        }
+
+        .rage-lbls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: .7rem;
+        }
+
+        .rl {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: .76rem;
+            font-weight: 700;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+        }
+
+        .rl.calm {
+            color: #7c90ff;
+        }
+
+        .rl.mad {
+            color: #ff4444;
+        }
+
+        .rage-track {
+            height: 8px;
+            background: rgba(255, 255, 255, .05);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .rage-fill {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(to right, #7c90ff 0%, var(--gamma) 40%, #ff9900 70%, #ff4444 100%);
+            animation: rage-anim 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes rage-anim {
+            0% {
+                width: 18%;
+                box-shadow: 0 0 8px rgba(124, 144, 255, .5);
+            }
+
+            100% {
+                width: 98%;
+                box-shadow: 0 0 22px rgba(255, 68, 68, .7);
+            }
+        }
+
+        .rage-states {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        .rs-name {
+            font-family: 'Anton', sans-serif;
+            font-size: 1rem;
+            color: var(--text);
+        }
+
+        .rs-power {
+            font-size: .72rem;
+            font-weight: 600;
+            letter-spacing: .1em;
+            color: var(--text-dim);
+        }
+
+        /* ===================================================
+       FORMS / VERSIONS
+    =================================================== */
+        #forms {
+            background: var(--bg);
+        }
+
+        .forms-intro {
+            font-size: 1.04rem;
+            line-height: 1.82;
+            color: var(--text-dim);
+            max-width: 700px;
+            margin-bottom: 4rem;
+        }
+
+        .forms-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2px;
+            background: rgba(57, 255, 20, .06);
+        }
+
+        .fitem {
+            background: var(--bg);
+            padding: 2.4rem;
+            border-left: 3px solid transparent;
+            transition: border-color .3s, background .3s;
+        }
+
+        .fitem:hover {
+            border-left-color: var(--gamma);
+            background: #0a1c0a;
+        }
+
+        .fitem-name {
+            font-family: 'Anton', sans-serif;
+            font-size: 1.6rem;
+            letter-spacing: .04em;
+            color: var(--hulk);
+            margin-bottom: .3rem;
+        }
+
+        .fitem-alias {
+            font-size: .72rem;
+            font-weight: 700;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            color: var(--gamma);
+            opacity: .7;
+            margin-bottom: .8rem;
+        }
+
+        .fitem-desc {
+            font-size: .9rem;
+            line-height: 1.72;
+            color: var(--text-dim);
+        }
+
+        /* ===================================================
+       BATTLES TIMELINE
+    =================================================== */
+        #battles {
+            background: var(--bg-2);
+        }
+
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 2.4rem;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: linear-gradient(to bottom, var(--gamma), transparent);
+        }
+
+        .bitem {
+            display: flex;
+            gap: 2.5rem;
+            padding: 2.5rem 0;
+            border-bottom: 1px solid rgba(57, 255, 20, .06);
+            align-items: flex-start;
+        }
+
+        .bitem:last-child {
+            border-bottom: none;
+        }
+
+        .bdot {
+            width: 4.8rem;
+            height: 4.8rem;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 2px solid var(--gamma);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.7rem;
+            flex-shrink: 0;
+            box-shadow: 0 0 16px rgba(57, 255, 20, .3);
+            z-index: 1;
+        }
+
+        .bcontent {
+            padding-top: .4rem;
+        }
+
+        .byear {
+            font-size: .72rem;
+            font-weight: 700;
+            letter-spacing: .2em;
+            color: var(--gamma);
+            opacity: .8;
+            margin-bottom: .3rem;
+        }
+
+        .bname {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: var(--text);
+            margin-bottom: .5rem;
+        }
+
+        .bdesc {
+            font-size: .9rem;
+            line-height: 1.74;
+            color: var(--text-dim);
+        }
+
+        .bdesc em {
+            color: var(--text);
+            font-style: italic;
+        }
+
+        /* ===================================================
+       QUOTES
+    =================================================== */
+        #quotes {
+            background: var(--bg);
+        }
+
+        .quotes-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2px;
+            background: rgba(57, 255, 20, .04);
+            margin-top: 1rem;
+        }
+
+        .qblock {
+            background: var(--bg);
+            padding: 2.8rem;
+            position: relative;
+            overflow: hidden;
+            transition: background .3s;
+        }
+
+        .qblock:hover {
+            background: #0a1a0a;
+        }
+
+        .qmark {
+            font-family: 'Anton', sans-serif;
+            font-size: 8rem;
+            line-height: .6;
+            color: rgba(57, 255, 20, .07);
+            position: absolute;
+            top: 1.2rem;
+            left: 1.2rem;
+            pointer-events: none;
+        }
+
+        .qtext {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: clamp(1.15rem, 2.2vw, 1.7rem);
+            font-weight: 700;
+            line-height: 1.32;
+            font-style: italic;
+            color: var(--text);
+            position: relative;
+            z-index: 1;
+            margin-bottom: 1.2rem;
+        }
+
+        .qsource {
+            font-size: .72rem;
+            font-weight: 700;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            color: var(--gamma);
+            opacity: .7;
+        }
+
+        /* ===================================================
+       MEDIA / APPEARANCES
+    =================================================== */
+        #media {
+            background: var(--bg-2);
+        }
+
+        .appear-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.4rem;
+        }
+
+        .acard {
+            background: var(--bg-card);
+            border: 1px solid rgba(57, 255, 20, .1);
+            overflow: hidden;
+            transition: border-color .3s, transform .3s;
+        }
+
+        .acard:hover {
+            border-color: rgba(57, 255, 20, .4);
+            transform: translateY(-3px);
+        }
+
+        .athumb {
+            height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.8rem;
+            background: linear-gradient(135deg, var(--bg-3), var(--bg-card));
+        }
+
+        .ainfo {
+            padding: 1.2rem;
+        }
+
+        .ayear {
+            font-size: .68rem;
+            font-weight: 700;
+            letter-spacing: .2em;
+            color: var(--gamma);
+            opacity: .7;
+            margin-bottom: .3rem;
+        }
+
+        .atitle {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1.08rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: var(--text);
+            margin-bottom: .35rem;
+        }
+
+        .amid {
+            font-size: .8rem;
+            line-height: 1.6;
+            color: var(--text-dim);
+        }
+
+        /* ===================================================
+       TRIVIA
+    =================================================== */
+        #trivia {
+            background: var(--bg);
+        }
+
+        .trivia-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.4rem;
+        }
+
+        .titem {
+            display: flex;
+            gap: 1.2rem;
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid rgba(57, 255, 20, .08);
+            transition: border-color .3s;
+        }
+
+        .titem:hover {
+            border-color: rgba(57, 255, 20, .3);
+        }
+
+        .tnum {
+            font-family: 'Anton', sans-serif;
+            font-size: 2rem;
+            color: rgba(57, 255, 20, .2);
+            line-height: 1;
+            flex-shrink: 0;
+            width: 2.4rem;
+        }
+
+        .ttext {
+            font-size: .9rem;
+            line-height: 1.74;
+            color: var(--text-dim);
+        }
+
+        .ttext strong {
+            color: var(--text);
+        }
+
+        /* ===================================================
+       CTA BAND
+    =================================================== */
+        .cta-band {
+            background: radial-gradient(ellipse 70% 100% at 50% 50%, #0f3010, var(--bg));
+            padding: 7rem 2rem;
+            text-align: center;
+        }
+
+        .cta-band .sec-title {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            margin-bottom: 1.2rem;
+        }
+
+        .cta-band p {
+            color: var(--text-dim);
+            font-size: 1.05rem;
+            max-width: 560px;
+            margin: 0 auto 2.8rem;
+        }
+
+        /* ===================================================
+       FOOTER
+    =================================================== */
+        footer {
+            background: var(--bg-2);
+            border-top: 1px solid rgba(57, 255, 20, .1);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: 'Anton', sans-serif;
+            font-size: 3.5rem;
+            letter-spacing: .18em;
+            color: var(--gamma);
+            text-shadow: 0 0 24px rgba(57, 255, 20, .3);
+            margin-bottom: .8rem;
+        }
+
+        .footer-sub {
+            font-size: .82rem;
+            color: var(--text-dim);
+            letter-spacing: .1em;
+            margin-bottom: 2.2rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            list-style: none;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: .76rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            transition: color .3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--gamma);
+        }
+
+        .footer-copy {
+            font-size: .72rem;
+            color: var(--text-dim);
+            opacity: .35;
+        }
+
+        /* ===================================================
+       RESPONSIVE
+    =================================================== */
+        @media (max-width: 900px) {
+            .origin-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .quotes-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .appear-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .trivia-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .forms-list {
+                grid-template-columns: 1fr;
+            }
+
+            nav {
+                padding: 1rem 1.6rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .nav-links {
+                display: none;
+            }
+
+            .appear-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-row {
+                flex-direction: column;
+                gap: 1.2rem;
+            }
+
+            section {
+                padding: 5rem 1.4rem;
+            }
+
+            .timeline::before {
+                left: 2.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ═══════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════ -->
+    <nav>
+        <a class="nav-logo" href="#hero">HULK</a>
+        <ul class="nav-links">
+            <li><a href="#origin">Origem</a></li>
+            <li><a href="#powers">Poderes</a></li>
+            <li><a href="#forms">Formas</a></li>
+            <li><a href="#battles">Batalhas</a></li>
+            <li><a href="#quotes">Frases</a></li>
+            <li><a href="#media">Mídia</a></li>
+            <li><a href="#trivia">Curiosidades</a></li>
+        </ul>
+    </nav>
+
+    <!-- ═══════════════════════════════════════
+     HERO
+════════════════════════════════════════ -->
+    <section id="hero">
+        <div class="gamma-bg"></div>
+        <div id="particles"></div>
+
+        <p class="hero-eyebrow">Marvel Comics · Stan Lee &amp; Jack Kirby · desde 1962</p>
+        <h1 class="hero-title">HULK</h1>
+        <p class="hero-sub">
+            <span>The Incredible</span> &nbsp;·&nbsp; O Monstro de Jade &nbsp;·&nbsp; <span>World Breaker</span>
+        </p>
+        <div class="hero-cta">
+            <a href="#origin" class="btn">Conheça o Monstro</a>
+        </div>
+        <div class="hero-scroll">
+            <span>Scroll</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="smash-bar" aria-hidden="true">
+        <div class="smash-track">
+            <span>HULK SMASH</span><span>·</span>
+            <span>HULK MAIS FORTE</span><span>·</span>
+            <span>DEIXA HULK EM PAZ</span><span>·</span>
+            <span>HULK SMASH</span><span>·</span>
+            <span>HULK MAIS FORTE</span><span>·</span>
+            <span>DEIXA HULK EM PAZ</span><span>·</span>
+            <span>HULK SMASH</span><span>·</span>
+            <span>HULK MAIS FORTE</span><span>·</span>
+            <span>DEIXA HULK EM PAZ</span><span>·</span>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+     ORIGEM
+════════════════════════════════════════ -->
+    <section id="origin">
+        <div class="container">
+            <div class="origin-grid">
+                <div class="fi">
+                    <p class="label">Origem</p>
+                    <h2 class="sec-title">Bruce Banner &amp;<br><span class="g">O Monstro</span></h2>
+                    <div class="divider"></div>
+                    <p class="text-dim"><strong>Dr. Robert Bruce Banner</strong> era um físico nuclear brilhante e
+                        introspectivo, trabalhando para o governo americano no desenvolvimento de uma bomba de raios
+                        gama — uma arma de destruição em massa baseada na mesma energia que devastou Hiroshima.</p>
+                    <br>
+                    <p class="text-dim">Em um <strong>dia fatídico de 1962</strong>, durante um teste de detonação no
+                        deserto do Novo México, Banner percebeu que o jovem Rick Jones havia invadido a zona restrita.
+                        Sem hesitar, empurrou o rapaz para um abrigo — mas não teve tempo de se proteger.</p>
+                    <br>
+                    <p class="text-dim">A explosão o banhava em uma <strong>dose letal de radiação gama</strong>. Contra
+                        toda probabilidade médica, Banner sobreviveu. Mas à noite, quando a escuridão caía, algo dentro
+                        dele acordava: uma criatura colossal, de pele esveradeada e força incalculável.</p>
+                    <br>
+                    <p class="text-dim">A relação entre Banner e o Hulk é uma das mais complexas dos quadrinhos: dois
+                        seres dividindo o mesmo corpo, com valores, desejos e temperamentos radicalmente opostos. Banner
+                        quer controle. <strong>O Hulk quer liberdade.</strong></p>
+                    <div class="stats-row">
+                        <div class="stat">
+                            <div class="stat-n">1962</div>
+                            <div class="stat-l">Primeira Aparição</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-n">2m+</div>
+                            <div class="stat-l">Altura em Fúria</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-n">∞</div>
+                            <div class="stat-l">Força Potencial</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="fi" style="display:flex;align-items:center;justify-content:center;">
+                    <span class="gamma-sym">γ</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+     PODERES
+════════════════════════════════════════ -->
+    <section id="powers">
+        <div class="container">
+            <p class="label">Poderes &amp; Habilidades</p>
+            <h2 class="sec-title">O que Faz o <span class="g">Hulk</span> Único</h2>
+            <div class="divider"></div>
+            <div class="powers-grid">
+
+                <div class="pcard fi">
+                    <span class="pcard-icon">💪</span>
+                    <p class="pcard-name">Força Ilimitada</p>
+                    <p class="pcard-desc">O Hulk não possui um teto fixo de força. Quanto mais irritado fica, mais forte
+                        se torna — podendo levantar montanhas, suportar estruturas planetárias por horas e liberar
+                        golpes que abalam continentes.</p>
+                    <div class="pbar-row"><span class="pbar-lbl">Nível</span>
+                        <div class="pbar">
+                            <div class="pbar-fill" style="width:100%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pcard fi">
+                    <span class="pcard-icon">🔄</span>
+                    <p class="pcard-name">Fator de Cura</p>
+                    <p class="pcard-desc">O Hulk regenera ferimentos em segundos. Membros amputados, órgãos destruídos,
+                        fraturas — tudo se reconstrói quase instantaneamente. Quanto maior a raiva, mais veloz a
+                        regeneração.</p>
+                    <div class="pbar-row"><span class="pbar-lbl">Nível</span>
+                        <div class="pbar">
+                            <div class="pbar-fill" style="width:95%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pcard fi">
+                    <span class="pcard-icon">🦘</span>
+                    <p class="pcard-name">Salto Sobrenatural</p>
+                    <p class="pcard-desc">Em um único salto, o Hulk percorre centenas de quilômetros, atingindo
+                        velocidades de até 1.600 km/h no ar. Pode alcançar o espaço sideral sem sequer atingir sua
+                        velocidade máxima de corrida.</p>
+                    <div class="pbar-row"><span class="pbar-lbl">Nível</span>
+                        <div class="pbar">
+                            <div class="pbar-fill" style="width:88%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pcard fi">
+                    <span class="pcard-icon">🛡️</span>
+                    <p class="pcard-name">Durabilidade Extrema</p>
+                    <p class="pcard-desc">A pele do Hulk resiste a temperaturas extremas, radiação intensa, explosões
+                        nucleares e impactos capazes de destruir cidades. Sobreviveu ao centro de uma estrela e a
+                        singularidades temporais.</p>
+                    <div class="pbar-row"><span class="pbar-lbl">Nível</span>
+                        <div class="pbar">
+                            <div class="pbar-fill" style="width:97%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pcard fi">
+                    <span class="pcard-icon">🌊</span>
+                    <p class="pcard-name">Thunderclap</p>
+                    <p class="pcard-desc">O bater de palmas do Hulk gera ondas de choque comparáveis a furacões
+                        Categoria 5 — capaz de desviar projéteis, apagar chamas instantaneamente e atordoar adversários
+                        de nível cósmico.</p>
+                    <div class="pbar-row"><span class="pbar-lbl">Nível</span>
+                        <div class="pbar">
+                            <div class="pbar-fill" style="width:85%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pcard fi">
+                    <span class="pcard-icon">☢️</span>
+                    <p class="pcard-name">Radiação Gama</p>
+                    <p class="pcard-desc">Seu corpo irradia energia gama constante. Em versões mais poderosas, essa
+                        radiação é liberada como ondas devastadoras. O sangue do Hulk é tóxico para a maioria dos seres
+                        vivos.</p>
+                    <div class="pbar-row"><span class="pbar-lbl">Nível</span>
+                        <div class="pbar">
+                            <div class="pbar-fill" style="width:80%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pcard fi">
+                    <span class="pcard-icon">🧠</span>
+                    <p class="pcard-name">Inteligência de Bruce Banner</p>
+                    <p class="pcard-desc">Na forma Professor Hulk, Banner mantém seu QI excepcional — um dos maiores
+                        físicos da Terra-616. Suas contribuições científicas incluem pesquisas em radiação gama,
+                        mecânica quântica e biotecnologia.</p>
+                    <div class="pbar-row"><span class="pbar-lbl">Nível</span>
+                        <div class="pbar">
+                            <div class="pbar-fill" style="width:92%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pcard fi">
+                    <span class="pcard-icon">🌀</span>
+                    <p class="pcard-name">Adaptação &amp; Sobrevivência</p>
+                    <p class="pcard-desc">O Hulk desenvolve imunidades a toxinas, energias e poderes que já o afetaram.
+                        Em combates prolongados, ele simplesmente para de ser suscetível à mesma forma de dano —
+                        tornando-o cada vez mais difícil de derrotar.</p>
+                    <div class="pbar-row"><span class="pbar-lbl">Nível</span>
+                        <div class="pbar">
+                            <div class="pbar-fill" style="width:90%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pcard fi">
+                    <span class="pcard-icon">😤</span>
+                    <p class="pcard-name">Raiva como Catalisador</p>
+                    <p class="pcard-desc">Nenhuma das capacidades acima tem um teto. Cada emoção negativa — medo, dor,
+                        humilhação — converte-se em potência bruta. O Hulk é, essencialmente, uma máquina de
+                        retroalimentação emocional infinita.</p>
+                    <div class="pbar-row"><span class="pbar-lbl">Nível</span>
+                        <div class="pbar">
+                            <div class="pbar-fill" style="width:100%"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+     RAGE METER
+════════════════════════════════════════ -->
+    <section id="rage">
+        <div class="container">
+            <div class="rage-wrap fi">
+                <p class="label" style="text-align:center">O Princípio Fundamental</p>
+                <div class="rage-quote">
+                    "Quanto mais irritado o Hulk fica,<br><em>mais forte ele fica."</em>
+                </div>
+                <div class="rage-lbls">
+                    <span class="rl calm">Bruce Banner calmo</span>
+                    <span class="rl mad">Fúria absoluta</span>
+                </div>
+                <div class="rage-track">
+                    <div class="rage-fill"></div>
+                </div>
+                <div class="rage-states">
+                    <div>
+                        <div class="rs-name">Banner</div>
+                        <div class="rs-power">Humano</div>
+                    </div>
+                    <div>
+                        <div class="rs-name">Hulk Irritado</div>
+                        <div class="rs-power">80+ toneladas</div>
+                    </div>
+                    <div>
+                        <div class="rs-name">World Breaker</div>
+                        <div class="rs-power">Poder Planetário</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+     FORMAS / VERSÕES
+════════════════════════════════════════ -->
+    <section id="forms">
+        <div class="container">
+            <p class="label">Identidades</p>
+            <h2 class="sec-title">As Muitas <span class="g">Faces</span> do Hulk</h2>
+            <div class="divider"></div>
+            <p class="forms-intro">Ao longo de décadas, Bruce Banner manifestou diferentes personalidades do Hulk — cada
+                uma refletindo um aspecto distinto de seu psiquismo fragmentado e das circunstâncias que o moldaram.</p>
+            <div class="forms-list">
+
+                <div class="fitem fi">
+                    <p class="fitem-name">Hulk Selvagem</p>
+                    <p class="fitem-alias">Savage Hulk · A Forma Original</p>
+                    <p class="fitem-desc">Verde, brutal, movido pela raiva pura. Age com inteligência de criança, mas
+                        força que destrói continentes. A forma mais icônica, que só quer "ser deixada em paz" — e está
+                        sempre em guerra com um mundo que a persegue.</p>
+                </div>
+
+                <div class="fitem fi">
+                    <p class="fitem-name">Hulk Cinza</p>
+                    <p class="fitem-alias">Joe Fixit · Mr. Fix-It</p>
+                    <p class="fitem-desc">Mais astuto que o selvagem. Emergiu na crise de identidade de Banner em Las
+                        Vegas, trabalhando como cobrador para a máfia. Mais esperto, mais frio, mais manipulador — e
+                        consideravelmente mais perigoso à sua maneira.</p>
+                </div>
+
+                <div class="fitem fi">
+                    <p class="fitem-name">Hulk Professor</p>
+                    <p class="fitem-alias">Professor Hulk · A Fusão</p>
+                    <p class="fitem-desc">A fusão aparentemente perfeita: a inteligência de Banner no corpo do monstro.
+                        Mais controlado e estável — mas com uma fraqueza oculta e cruel: quando sente verdadeiro medo,
+                        sua força cai drasticamente.</p>
+                </div>
+
+                <div class="fitem fi">
+                    <p class="fitem-name">World Breaker</p>
+                    <p class="fitem-alias">Destruidor de Mundos · A Forma Mais Devastadora</p>
+                    <p class="fitem-desc">Após retornar de Sakaar carregando dor, raiva e luto absolutos, Banner se
+                        transformou em uma força tão poderosa que cientistas estimaram que cada passo liberava energia
+                        capaz de devastar cidades. Ele veio para guerra.</p>
+                </div>
+
+                <div class="fitem fi">
+                    <p class="fitem-name">Immortal Hulk</p>
+                    <p class="fitem-alias">O Diabo Verde · A Forma do Horror</p>
+                    <p class="fitem-desc">A encarnação mais sombria e aterrorizante. Representa o ódio puro de Banner
+                        por um mundo que sempre o perseguiu. Ligado ao One Below All — entidade abaixo do próprio
+                        Multiverso — este Hulk não pode morrer. Ele sempre retorna.</p>
+                </div>
+
+                <div class="fitem fi">
+                    <p class="fitem-name">Hulk Vermelho</p>
+                    <p class="fitem-alias">Red Hulk · General Thunderbolt Ross</p>
+                    <p class="fitem-desc">O maior inimigo de Banner — o General Ross — tornou-se também um Hulk. Chamas
+                        vermelhas, capacidade de absorver energia de outras fontes e emissão de calor intenso.
+                        Enfraquece quando sua raiva é neutralizada.</p>
+                </div>
+
+                <div class="fitem fi">
+                    <p class="fitem-name">She-Hulk</p>
+                    <p class="fitem-alias">Jennifer Walters · A Prima</p>
+                    <p class="fitem-desc">Jennifer Walters, prima de Bruce, recebeu uma transfusão de sangue de Banner
+                        após ser baleada. Como She-Hulk, mantém inteligência e personalidade plenas em sua forma verde —
+                        tornando-a, paradoxalmente, a versão mais funcional da família Hulk.</p>
+                </div>
+
+                <div class="fitem fi">
+                    <p class="fitem-name">Smart Hulk</p>
+                    <p class="fitem-alias">Professor Hulk MCU · A Fusão Cinematográfica</p>
+                    <p class="fitem-desc">Versão do MCU onde Banner finalmente encontrou paz: o corpo do Hulk com a
+                        mente do cientista. Ele passou 18 meses em um laboratório de radiação gama para forçar a fusão
+                        permanente — e emergiu transformado e em paz com si mesmo.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+     BATALHAS
+════════════════════════════════════════ -->
+    <section id="battles">
+        <div class="container">
+            <p class="label">Confrontos Épicos</p>
+            <h2 class="sec-title">Batalhas <span class="g">Lendárias</span></h2>
+            <div class="divider"></div>
+            <div class="timeline">
+
+                <div class="bitem fi">
+                    <div class="bdot">⚡</div>
+                    <div class="bcontent">
+                        <p class="byear">Rivalidade eterna nos quadrinhos</p>
+                        <p class="bname">Hulk vs. Thor</p>
+                        <p class="bdesc">Um dos embates mais debatidos. Thor e Hulk travaram batalhas épicas por
+                            décadas, com resultados variados — ora Thor prevalece, ora o Hulk. Em <em>Fear Itself</em>,
+                            um Thor com martelos duplos ainda teve sérias dificuldades para derrubar o Hulk enraivecido.
+                            A questão "quem vence?" permanece sem resposta definitiva — intencionalmente.</p>
+                    </div>
+                </div>
+
+                <div class="bitem fi">
+                    <div class="bdot">🦅</div>
+                    <div class="bcontent">
+                        <p class="byear">O início de tudo — 1963</p>
+                        <p class="bname">Hulk vs. Os Primeiros Vingadores</p>
+                        <p class="bdesc">Ironia máxima: o herói que uniu os Vingadores foi também seu primeiro grande
+                            adversário. A equipe original — Thor, Homem de Ferro, Vespa e Homem-Formiga — formou-se
+                            justamente para conter o Hulk, manipulado por Loki. Décadas depois, ele seria membro e
+                            salvador do mesmo grupo.</p>
+                    </div>
+                </div>
+
+                <div class="bitem fi">
+                    <div class="bdot">🌌</div>
+                    <div class="bcontent">
+                        <p class="byear">Saga Planeta Hulk</p>
+                        <p class="bname">Gladiador de Sakaar</p>
+                        <p class="bdesc">Enviado ao espaço pelos próprios heróis com o pretexto de proteção pública, o
+                            Hulk foi parar no planeta Sakaar — um mundo de arenas gladiadoras. Em vez de ser destruído,
+                            tornou-se campeão invicto, libertou os escravos e se tornou rei. Pela primeira vez, tinha
+                            uma vida que queria. Até que tudo foi destruído pela traição.</p>
+                    </div>
+                </div>
+
+                <div class="bitem fi">
+                    <div class="bdot">💥</div>
+                    <div class="bcontent">
+                        <p class="byear">World War Hulk — 2007</p>
+                        <p class="bname">Hulk vs. O Universo Marvel</p>
+                        <p class="bdesc">De volta à Terra com a raiva da perda de tudo que amava, o World Breaker Hulk
+                            enfrentou e derrotou <em>Iron Man</em>, <em>Thor</em>, <em>Doutor Estranho</em>, os
+                            <em>X-Men</em> e praticamente todos os heróis. A batalha culminou em Nova York destruída
+                            antes de Banner emergir e parar a si mesmo — pois ele sempre foi o verdadeiro perigo, não o
+                            Hulk.</p>
+                    </div>
+                </div>
+
+                <div class="bitem fi">
+                    <div class="bdot">💎</div>
+                    <div class="bcontent">
+                        <p class="byear">Avengers: Infinity War — 2018</p>
+                        <p class="bname">Hulk vs. Thanos</p>
+                        <p class="bdesc">No início do filme, Thanos derrotou o Hulk com brutalidade crua — sem Pedras do
+                            Infinito. A surra foi tão traumática que o Hulk se recusou a aparecer novamente, deixando
+                            Banner sem sua forma mais poderosa no momento de maior necessidade da Terra. Um retrato
+                            chocante de trauma e medo mesmo em uma entidade de poder ilimitado.</p>
+                    </div>
+                </div>
+
+                <div class="bitem fi">
+                    <div class="bdot">🏔️</div>
+                    <div class="bcontent">
+                        <p class="byear">Saga Peter David — anos 1990</p>
+                        <p class="bname">O Peso de Atalus</p>
+                        <p class="bdesc">Em uma das proezas de força mais calculadas dos quadrinhos, o Hulk sustentou o
+                            peso de uma cadeia de montanhas por horas para salvar vidas — um feito estimado em bilhões
+                            de toneladas. A cena redefiniu o teto de sua força para uma geração de leitores.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+     FRASES
+════════════════════════════════════════ -->
+    <section id="quotes">
+        <div class="container">
+            <p class="label">Frases Imortais</p>
+            <h2 class="sec-title">Palavras do <span class="g">Monstro</span></h2>
+            <div class="divider"></div>
+            <div class="quotes-grid">
+
+                <div class="qblock fi">
+                    <div class="qmark">"</div>
+                    <p class="qtext">"Hulk é o mais forte que existe."</p>
+                    <p class="qsource">Hulk · Frase clássica dos quadrinhos Marvel</p>
+                </div>
+
+                <div class="qblock fi">
+                    <div class="qmark">"</div>
+                    <p class="qtext">"Deixa o Hulk em paz!"</p>
+                    <p class="qsource">Savage Hulk · Grito de batalha recorrente</p>
+                </div>
+
+                <div class="qblock fi">
+                    <div class="qmark">"</div>
+                    <p class="qtext">"Quanto mais irritado o Hulk fica, mais forte o Hulk fica."</p>
+                    <p class="qsource">Hulk · A lei fundamental do personagem</p>
+                </div>
+
+                <div class="qblock fi">
+                    <div class="qmark">"</div>
+                    <p class="qtext">"Não posso apagar o que sou. Só posso escolher o que faço com isso."</p>
+                    <p class="qsource">Bruce Banner · Sobre dualidade e identidade</p>
+                </div>
+
+                <div class="qblock fi">
+                    <div class="qmark">"</div>
+                    <p class="qtext">"Vocês me enviaram para o espaço porque tinham medo. Agora deveriam ter mais medo
+                        ainda."</p>
+                    <p class="qsource">World Breaker Hulk · World War Hulk, 2007</p>
+                </div>
+
+                <div class="qblock fi">
+                    <div class="qmark">"</div>
+                    <p class="qtext">"Eles viram Banner. Viram o monstro. Nunca viram o homem entre os dois."</p>
+                    <p class="qsource">Bruce Banner · Sobre ser incompreendido</p>
+                </div>
+
+                <div class="qblock fi">
+                    <div class="qmark">"</div>
+                    <p class="qtext">"Não importa o quanto tentem me destruir. O Hulk sobrevive. O Hulk sempre
+                        sobrevive."</p>
+                    <p class="qsource">Immortal Hulk · Al Ewing, 2018</p>
+                </div>
+
+                <div class="qblock fi">
+                    <div class="qmark">"</div>
+                    <p class="qtext">"Eu já fui o mais inteligente. Fui o mais forte. Fui o mais raivoso. Nenhum deles
+                        foi suficiente. Talvez seja hora de ser os três ao mesmo tempo."</p>
+                    <p class="qsource">Bruce Banner · Smart Hulk, MCU</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+     MÍDIA / APARIÇÕES
+════════════════════════════════════════ -->
+    <section id="media">
+        <div class="container">
+            <p class="label">Aparições</p>
+            <h2 class="sec-title">O Hulk na <span class="g">Cultura Pop</span></h2>
+            <div class="divider"></div>
+            <div class="appear-grid">
+
+                <div class="acard fi">
+                    <div class="athumb">📚</div>
+                    <div class="ainfo">
+                        <p class="ayear">Maio · 1962</p>
+                        <p class="atitle">The Incredible Hulk #1</p>
+                        <p class="amid">Stan Lee &amp; Jack Kirby. O Hulk original era cinza. Problemas gráficos geraram
+                            tons inconsistentes de verde nas impressões — e a cor acabou se tornando canônica para
+                            sempre.</p>
+                    </div>
+                </div>
+
+                <div class="acard fi">
+                    <div class="athumb">📺</div>
+                    <div class="ainfo">
+                        <p class="ayear">1977 – 1982</p>
+                        <p class="atitle">The Incredible Hulk · CBS</p>
+                        <p class="amid">Bill Bixby como Banner; Lou Ferrigno como o Hulk. A série definiu a essência
+                            trágica do personagem — "um homem condenado a vagar" — para toda uma geração.</p>
+                    </div>
+                </div>
+
+                <div class="acard fi">
+                    <div class="athumb">🎬</div>
+                    <div class="ainfo">
+                        <p class="ayear">2003</p>
+                        <p class="atitle">Hulk · Ang Lee</p>
+                        <p class="amid">Eric Bana como Banner. Uma abordagem visual e psicológica controversa, usando
+                            "painéis" cinematográficos em homenagem às HQs. Pioneiro no uso de VFX para personagens CGI
+                            de longa-metragem.</p>
+                    </div>
+                </div>
+
+                <div class="acard fi">
+                    <div class="athumb">🎬</div>
+                    <div class="ainfo">
+                        <p class="ayear">2008</p>
+                        <p class="atitle">O Incrível Hulk · MCU</p>
+                        <p class="amid">Edward Norton como Banner. Introduziu o personagem no Universo Cinematográfico
+                            Marvel. Trouxe Tim Roth como Abominação e plantou as bases do que viria a ser o maior
+                            universo compartilhado do cinema.</p>
+                    </div>
+                </div>
+
+                <div class="acard fi">
+                    <div class="athumb">🎬</div>
+                    <div class="ainfo">
+                        <p class="ayear">2012 – 2023</p>
+                        <p class="atitle">MCU — Mark Ruffalo</p>
+                        <p class="amid">A caracterização mais amadurecida em live-action. De Banner atormentado nos
+                            Vingadores a Smart Hulk em Endgame — uma jornada de auto-aceitação espalhada por mais de uma
+                            década de filmes.</p>
+                    </div>
+                </div>
+
+                <div class="acard fi">
+                    <div class="athumb">🦸</div>
+                    <div class="ainfo">
+                        <p class="ayear">1982 – 2013</p>
+                        <p class="atitle">Animações Marvel</p>
+                        <p class="amid">Diversas séries animadas: <em>The Incredible Hulk (1996)</em>, <em>Avengers:
+                                Earth's Mightiest Heroes (2010)</em>, <em>Hulk and the Agents of S.M.A.S.H. (2013)</em>.
+                            O Hulk nunca ficou fora do ar por mais de poucos anos.</p>
+                    </div>
+                </div>
+
+                <div class="acard fi">
+                    <div class="athumb">🎮</div>
+                    <div class="ainfo">
+                        <p class="ayear">2008</p>
+                        <p class="atitle">The Incredible Hulk · Sega</p>
+                        <p class="amid">Mundo aberto em Nova York com destruição ambiental em tempo real. Considerado um
+                            dos melhores jogos de super-herói de sua era. Escalar arranha-céus e arremessá-los uns nos
+                            outros nunca foi tão satisfatório.</p>
+                    </div>
+                </div>
+
+                <div class="acard fi">
+                    <div class="athumb">📚</div>
+                    <div class="ainfo">
+                        <p class="ayear">2018 – 2021</p>
+                        <p class="atitle">Immortal Hulk · Al Ewing</p>
+                        <p class="amid">A série de quadrinhos mais aclamada das últimas décadas. Redefine o Hulk como
+                            entidade de horror cósmico, explorando trauma, abuso, identidade fragmentada e a natureza da
+                            imortalidade. Imperdível.</p>
+                    </div>
+                </div>
+
+                <div class="acard fi">
+                    <div class="athumb">📺</div>
+                    <div class="ainfo">
+                        <p class="ayear">2022</p>
+                        <p class="atitle">She-Hulk: Defensora de Heróis</p>
+                        <p class="amid">Jennifer Walters (Tatiana Maslany) herda os poderes após transfusão de sangue do
+                            primo Bruce. A série subverte e comenta com inteligência os tropes do gênero de super-heróis
+                            no Disney+.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+     CURIOSIDADES
+════════════════════════════════════════ -->
+    <section id="trivia">
+        <div class="container">
+            <p class="label">Fatos &amp; Curiosidades</p>
+            <h2 class="sec-title">O Monstro de <span class="g">Jade</span> em Detalhes</h2>
+            <div class="divider"></div>
+            <div class="trivia-grid">
+
+                <div class="titem fi">
+                    <div class="tnum">01</div>
+                    <p class="ttext"><strong>O Hulk original era cinza.</strong> Stan Lee escolheu cinza para evitar
+                        associação com qualquer etnia. Problemas de impressão geraram tons variados de verde — e a cor
+                        foi canonizada. O Hulk cinza retornou décadas depois como "Joe Fixit."</p>
+                </div>
+
+                <div class="titem fi">
+                    <div class="tnum">02</div>
+                    <p class="ttext"><strong>Jack Kirby se inspirou em Dr. Jekyll &amp; Mr. Hyde</strong>, combinado com
+                        uma notícia real: uma mãe ergueu um carro com as próprias mãos para salvar o filho. A raiva
+                        extrema libera potencial oculto — essa ideia fundamenta toda a mitologia do Hulk.</p>
+                </div>
+
+                <div class="titem fi">
+                    <div class="tnum">03</div>
+                    <p class="ttext"><strong>Lou Ferrigno dubla o Hulk no MCU.</strong> Ruffalo e os diretores quiseram
+                        homenagear a lenda viva da série de TV. Ferrigno emprestou sua voz inconfundível ao Hulk nas
+                        produções do estúdio como tributo a décadas de dedicação ao personagem.</p>
+                </div>
+
+                <div class="titem fi">
+                    <div class="tnum">04</div>
+                    <p class="ttext"><strong>O Hulk sustentou bilhões de toneladas.</strong> Na saga Peter David, ele
+                        segurou o peso de uma cordilheira inteira por horas para salvar vidas. É um dos feitos de força
+                        mais calculados e documentados de toda a história dos quadrinhos.</p>
+                </div>
+
+                <div class="titem fi">
+                    <div class="tnum">05</div>
+                    <p class="ttext"><strong>O Hulk é tecnicamente imortal</strong> na série <em>Immortal Hulk</em> de
+                        Al Ewing. Enquanto Banner pode ser morto, o Hulk sempre retorna — ligado à Porta Abaixo
+                        (Below-Place), uma dimensão de horror além da morte e do inferno no Multiverso Marvel.</p>
+                </div>
+
+                <div class="titem fi">
+                    <div class="tnum">06</div>
+                    <p class="ttext"><strong>O Hulk foi o primeiro Vingador involuntário.</strong> Os membros originais
+                        — Thor, Homem de Ferro, Vespa e Homem-Formiga — uniram-se especificamente para pará-lo. O grupo
+                        foi batizado pelos Vingadores para celebrar a vitória. E o Hulk foi embora logo depois.</p>
+                </div>
+
+                <div class="titem fi">
+                    <div class="tnum">07</div>
+                    <p class="ttext"><strong>Bruce Banner tem QI superior ao de Tony Stark e Reed Richards</strong> em
+                        diversas medidas. É considerado o maior especialista em física de radiação gama da Terra-616,
+                        com contribuições que nenhum outro cientista humano ou alienígena conseguiu replicar.</p>
+                </div>
+
+                <div class="titem fi">
+                    <div class="tnum">08</div>
+                    <p class="ttext"><strong>O Hulk resistiu à gravidade de um buraco negro.</strong> Em histórias de
+                        Sakaar, foi atraído por forças gravitacionais extremas e simplesmente resistiu — o que contradiz
+                        toda lei conhecida da física e solidifica seu status de ser virtualmente inestoppable.</p>
+                </div>
+
+                <div class="titem fi">
+                    <div class="tnum">09</div>
+                    <p class="ttext"><strong>O Hulk sobreviveu ao centro de uma estrela.</strong> Em batalhas cósmicas,
+                        ele foi lançado ao interior de uma estrela em plena fusão nuclear — e emergiu mais irritado do
+                        que entrou, com cada célula regenerada pela temperatura de milhões de graus.</p>
+                </div>
+
+                <div class="titem fi">
+                    <div class="tnum">10</div>
+                    <p class="ttext"><strong>A saga <em>Planeta Hulk</em> foi votada</strong> como uma das maiores
+                        histórias do Hulk de todos os tempos pela comunidade de fãs e críticos. Foi adaptada em animação
+                        em 2010 e serve de base parcial para <em>Thor: Ragnarok</em> (2017) no MCU.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+     CTA FINAL
+════════════════════════════════════════ -->
+    <div class="cta-band fi">
+        <p class="label" style="text-align:center">O Legado Continua</p>
+        <h2 class="sec-title" style="text-align:center">Hulk <span class="g">Smash</span> Since 1962</h2>
+        <p>Sessenta anos após sua criação, o Hulk continua sendo um dos personagens mais complexos, poderosos e
+            emocionalmente ressonantes dos quadrinhos — e da ficção como um todo.</p>
+        <a href="#origin" class="btn">Voltar ao Início</a>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+    <footer>
+        <div class="footer-logo">HULK</div>
+        <p class="footer-sub">O Incrível · O Imortal · O Destruidor de Mundos</p>
+        <ul class="footer-links">
+            <li><a href="#origin">Origem</a></li>
+            <li><a href="#powers">Poderes</a></li>
+            <li><a href="#forms">Formas</a></li>
+            <li><a href="#battles">Batalhas</a></li>
+            <li><a href="#quotes">Frases</a></li>
+            <li><a href="#media">Mídia</a></li>
+            <li><a href="#trivia">Curiosidades</a></li>
+        </ul>
+        <p class="footer-copy">Marvel Comics · The Incredible Hulk criado por Stan Lee &amp; Jack Kirby · 1962 · Esta é
+            uma página fan-made para fins educacionais</p>
+    </footer>
+
+    <!-- ═══════════════════════════════════════
+     SCRIPTS
+════════════════════════════════════════ -->
+    <script>
+        /* === GAMMA PARTICLES === */
+        const pContainer = document.getElementById('particles');
+        for (let i = 0; i < 45; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            const size = Math.random() * 3.5 + 1;
+            p.style.cssText = `
+            width:${size}px; height:${size}px;
+            left:${Math.random() * 100}%;
+            bottom:${Math.random() * 15}%;
+            animation-duration:${Math.random() * 9 + 5}s;
+            animation-delay:${Math.random() * 7}s;
+        `;
+            pContainer.appendChild(p);
+        }
+
+        /* === FADE-IN ON SCROLL === */
+        const faders = document.querySelectorAll('.fi');
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach((e, i) => {
+                if (e.isIntersecting) {
+                    setTimeout(() => e.target.classList.add('on'), i * 75);
+                    io.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+        faders.forEach(el => io.observe(el));
+
+        /* === ACTIVE NAV === */
+        const sections = document.querySelectorAll('section[id], #hero');
+        const navLinks = document.querySelectorAll('.nav-links a');
+        const navObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(a => a.style.color = '');
+                    const active = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
+                    if (active) active.style.color = 'var(--gamma)';
+                }
+            });
+        }, { threshold: 0.4 });
+        sections.forEach(s => navObserver.observe(s));
+    </script>
+
+</body>
+
+</html>
+
+

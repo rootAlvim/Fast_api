@@ -16,3 +16,8 @@ def test__root():
     response = client.get('/')
     assert response.status_code == HTTPStatus.OK
     assert response.json() == {'message': 'Olá Mundo!'}
+def test_page():
+    client = TestClient(app)
+    response = client.get('/lanpage')
+    assert response.status_code == HTTPStatus.OK
+    assert "<!DOCTYPE html>" in response.text
