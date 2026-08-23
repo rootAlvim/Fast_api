@@ -1,3 +1,4 @@
+pytest.ini
 # Ambiente Virtual
 .venv/
 # Caches do Python
