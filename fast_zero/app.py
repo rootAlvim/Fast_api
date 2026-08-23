@@ -1,25 +1,43 @@
-from fastapi import FastAPI , Request
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI 
 from fastapi.templating import Jinja2Templates
+from fastapi import HTTPException
 from http import HTTPStatus
-from fast_zero.schemas import Message, UserSchema, User_public, UserDB
+from fast_zero.schemas import UserSchema, User_public, UserDB , UserList
 app = FastAPI()
 
 templates = Jinja2Templates(directory="templates") 
 
 database = []
 
-@app.get('/',status_code=HTTPStatus.OK, response_model=Message)
-def read_root():
-    return {'message': 'Olá Mundo!'}
+@app.get('/users/', response_model=UserList)
+def users():
+    return {'users': database}
 
-'''docs#/
-@app.get('/lanpage',response_class=HTMLResponse)
-def pag(req:Request):
-    return templates.TemplateResponse(request=req, name="index.html")
-'''
+@app.get('/users/{user_id}', response_model=User_public)
+def search_user_id(user_id: int):
+    for n in database:
+        if n.id  == user_id:
+            return n
+        
+@app.put('/users/{user_id}', status_code=HTTPStatus.OK, response_model=User_public)
+def update_user(user_id: int, user: UserSchema):
+    new_user_id = UserDB(
+        username=user.username,
+        email=user.email,
+        password=user.password,
+        id=user_id)
+    database[user_id - 1] = new_user_id 
 
-@app.post('/users/',status_code=HTTPStatus.CREATED, response_model=User_public)
+    return new_user_id
+
+@app.delete('/users/{user_id}', response_model=User_public)
+def delete_user_id(user_id: int):
+    for n in database:
+        if n.id == user_id:
+            database.remove(n)
+            return n 
+    raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="User not found")   
+@app.post('/users/',status_code=HTTPStatus.CREATED, response_model=User_public) #POST- Criação
 def create_user(user: UserSchema):
     new_user = UserDB(
         username=user.username,
@@ -30,4 +48,25 @@ def create_user(user: UserSchema):
     database.append(new_user)
     return new_user
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+@app.get('/',response_class=HTMLResponse)
+def lan_page_test(req:Request):
+    return templates.TemplateResponse(request=req, name="index.html")   ''' 
 #uvicorn app:app --reload && fastapi dev app.py

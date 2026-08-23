@@ -1,23 +1,26 @@
-'''from fastapi.testclient import TestClient
-from app import app
-
-client = TestClient(app)
-
-def test_home_status_ok():
-    response = client.get("/")
-    assert response.status_code == 200
-'''
+from tests.conftest import client
 from http import HTTPStatus
-from fastapi.testclient import TestClient
-from fast_zero.app import app
 
-def test__root():
-    client = TestClient(app)
-    response = client.get('/')
+def test_create_user(client): #POST
+    response = client.post('/users/', json={
+        'username': 'alice',
+        'email': 'alice@gmail.com',
+        'password': '123',
+
+    })
+    assert response.status_code == HTTPStatus.CREATED
+    assert response.json() == {
+        'username': 'alice',
+        'email': 'alice@gmail.com',
+        'id': 1,
+    }
+
+def test_read_users(client):
+    response = client.get('/users/')
+
     assert response.status_code == HTTPStatus.OK
-    assert response.json() == {'message': 'Olá Mundo!'}
-def test_page():
-    client = TestClient(app)
-    response = client.get('/lanpage')
-    assert response.status_code == HTTPStatus.OK
-    assert "<!DOCTYPE html>" in response.text
+    assert response.json() == {
+        'users': [
+        ]
+    }
+
