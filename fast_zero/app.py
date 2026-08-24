@@ -19,8 +19,14 @@ def search_user_id(user_id: int):
         if n.id  == user_id:
             return n
         
+    raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="User not found")  
+
+        
 @app.put('/users/{user_id}', status_code=HTTPStatus.OK, response_model=User_public)
 def update_user(user_id: int, user: UserSchema):
+    if user_id > len(database) or user_id < 1:
+        raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="User not found")  
+    
     new_user_id = UserDB(
         username=user.username,
         email=user.email,
@@ -36,7 +42,10 @@ def delete_user_id(user_id: int):
         if n.id == user_id:
             database.remove(n)
             return n 
-    raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="User not found")   
+    raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="User not found")  
+
+
+
 @app.post('/users/',status_code=HTTPStatus.CREATED, response_model=User_public) #POST- Criação
 def create_user(user: UserSchema):
     new_user = UserDB(
